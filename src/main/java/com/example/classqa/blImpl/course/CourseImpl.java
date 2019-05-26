@@ -26,7 +26,12 @@ public class CourseImpl implements Coursebl {
             String name = courseForm.getCourse_name();
             String teacherName = courseForm.getTeacher_name();
             int course_code = (int)(1+Math.random()*10000);
-            int course_id=courseMapper.insertCourse(content,name,teacherName,course_code);
+            Course course = new Course();
+            course.setContent(content);
+            course.setCourse_code(course_code);
+            course.setHeadline(name);
+            course.setTeacher_name(teacherName);
+            int course_id=courseMapper.insertCourse(course);
             courseMapper.insertCourseUser(course_id,user_id);
             return ResponseVO.buildSuccess(course_code);
         } catch (Exception e) {

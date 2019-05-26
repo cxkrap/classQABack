@@ -52,7 +52,11 @@ public class NotificationImpl implements Notificationbl {
             int classID = notificationForm.getClass_id();
             String content = notificationForm.getContent();
             int courseID = notificationForm.getClass_id();
-            int notification_id=notificationMapper.insertNotification(content,classID,0);
+            Notification notification = new Notification();
+            notification.setNotificationContent(content);
+            notification.setCourse_id(classID);
+            notification.setHaveReadStudent(0);
+            int notification_id=notificationMapper.insertNotification(notification);
             notificationMapper.insertCourseNotification(notification_id,courseID);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {

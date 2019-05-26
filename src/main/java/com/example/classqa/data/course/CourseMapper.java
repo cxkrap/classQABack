@@ -8,11 +8,10 @@ import java.util.List;
 public interface CourseMapper {
     /**
      * 添加课程内容
-     * @param content
+     * @param course
      * @return
      */
-    int insertCourse(@Param("content")String content,@Param("headline")String headaline,
-                     @Param("teacherName")String teacherName,@Param("course_code")int course_code);
+    int insertCourse(@Param("course")Course course);
 
     /**
      * 添加课程成员
@@ -29,6 +28,11 @@ public interface CourseMapper {
      */
     Course selectCourseByID(@Param("id")int id);
 
+    /**
+     *
+     * @param user_id
+     * @return
+     */
     List<Course>selectCourseByUserID(@Param("user_id")int user_id);
     /**
      * 根据课程码查找课程
@@ -44,11 +48,5 @@ public interface CourseMapper {
      */
     int getQuestionNum(@Param("course_id")int course_id);
 
-    /**
-     * 根据ID查找对应课程学生人数
-     * @param id
-     * @return
-     */
-    int getStudentNum(@Param("id")int id);
 
 }

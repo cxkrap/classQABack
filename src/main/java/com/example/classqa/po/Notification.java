@@ -1,36 +1,17 @@
 package com.example.classqa.po;
 
+import lombok.Data;
 import java.util.List;
+@Data
 
 public class Notification {
     private int id;
 
     private String notificationContent;
 
-    private List<Student> haveReadStudent;
+    private int haveReadStudent;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNotificationContent() {
-        return notificationContent;
-    }
-
-    public void setNotificationContent(String notificationContent) {
-        this.notificationContent = notificationContent;
-    }
-
-    public List<Student> getHaveReadStudent() {
-        return haveReadStudent;
-    }
-
-    public void setHaveReadStudent(List<Student> haveReadStudent) {
-        this.haveReadStudent = haveReadStudent;
-    }
+    private int course_id;
 
 }
+

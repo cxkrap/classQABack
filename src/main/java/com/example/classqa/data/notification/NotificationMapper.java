@@ -10,11 +10,10 @@ import java.util.List;
 public interface NotificationMapper {
     /**
      * 新建通知
-     * @param content
+     * @param notification
      * @return
      */
-    int insertNotification(@Param("content")String content,
-                           @Param("classID")int classID,@Param("readed")int readed);
+    int insertNotification(Notification notification);
 
     int insertCourseNotification(@Param("notificationID")int notificationID,
                                  @Param("courseID")int courseID);
