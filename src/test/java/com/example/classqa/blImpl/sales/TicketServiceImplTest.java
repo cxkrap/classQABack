@@ -1,7 +1,6 @@
 package com.example.classqa.blImpl.sales;
 
 import com.example.ApplicationTests;
-import com.example.classqa.po.Ticket;
 import com.example.classqa.vo.ResponseVO;
 import com.example.classqa.vo.SeatForm;
 import com.example.classqa.vo.TicketForm;
