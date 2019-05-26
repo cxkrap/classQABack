@@ -4,9 +4,9 @@ public class Question {
 
     private int id;
 
-    private String questionContent;
+    private String content;
 
-    private int queryNum;
+    private int unableNum;
 
     private String userType;
 
@@ -21,19 +21,19 @@ public class Question {
     }
 
     public String getQuestionContent() {
-        return questionContent;
+        return content;
     }
 
     public void setQuestionContent(String questionContent) {
-        this.questionContent = questionContent;
+        this.content = questionContent;
     }
 
     public int getQueryNum() {
-        return queryNum;
+        return unableNum;
     }
 
     public void setQueryNum(int queryNum) {
-        this.queryNum = queryNum;
+        this.unableNum = queryNum;
     }
 
     public String getUserType() {

@@ -3,6 +3,7 @@ package com.example.classqa.data.course;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.example.classqa.po.Course;
+import java.util.List;
 @Mapper
 public interface CourseMapper {
     /**
@@ -10,31 +11,16 @@ public interface CourseMapper {
      * @param content
      * @return
      */
-    int insertCourse(@Param("content")String content);
+    int insertCourse(@Param("content")String content,@Param("headline")String headaline,
+                     @Param("teacherName")String teacherName,@Param("course_code")int course_code);
 
     /**
-     * 添加课程老师
-     * @param courseID
-     * @param teacherID
+     * 添加课程成员
+     * @param courseCode
+     * @param userID
      * @return
      */
-    int insertCourseTeacher(@Param("courseID")int courseID,@Param("teacherID")int teacherID);
-
-    /**
-     * 添加课程学生
-     * @param courseID
-     * @param studentID
-     * @return
-     */
-    int insertCourseStudent(@Param("courseID")int courseID,@Param("studentID")int studentID);
-
-    /**
-     * 添加课程问题
-     * @param courseID
-     * @param questionID
-     * @return
-     */
-    int insertCourseQuestion(@Param("courseID")int courseID,@Param("questionID")int questionID);
+    int insertCourseUser(@Param("courseCode")int courseCode,@Param("userID")int userID);
 
     /**
      * 根据ID查找课程
@@ -43,6 +29,21 @@ public interface CourseMapper {
      */
     Course selectCourseByID(@Param("id")int id);
 
+    List<Course>selectCourseByUserID(@Param("user_id")int user_id);
+    /**
+     * 根据课程码查找课程
+     * @param course_code
+     * @return
+     */
+    Course selectCoursesByCourseCode(@Param("course_code")int course_code);
+
+    /**
+     * 根据课程ID查找问题总数
+     * @param course_id
+     * @return
+     */
+    int getQuestionNum(@Param("course_id")int course_id);
+
     /**
      * 根据ID查找对应课程学生人数
      * @param id
@@ -50,9 +51,4 @@ public interface CourseMapper {
      */
     int getStudentNum(@Param("id")int id);
 
-    /**
-     * 根据ID删除课程
-     * @param courseID
-     */
-    void deleteCourseQuestion(@Param("courseID")int courseID);
 }

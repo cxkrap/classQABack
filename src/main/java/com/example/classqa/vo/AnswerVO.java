@@ -8,4 +8,5 @@ public class AnswerVO{
     int question_id;
     int user_id;
     String userType;
+    int thumb_num;
 }
