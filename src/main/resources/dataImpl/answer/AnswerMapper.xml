@@ -2,14 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.classqa.data.answer.AnswerMapper">
     <select id="selectAllAnswers" resultMap="com.example.classqa.po.Answer">
-        select * from answer order by thumb_num desc,date desc;
+        select * from answer where question_id=#{questionID}
+        order by thumb_num desc,date desc;
     </select>
 
     <select id="selectQuestionByID" resultMap="com.example.classqa.po.Answer">
         select * from answer where id=#{id};
     </select>
 
-    <insert id="insertAnswer">
-        
+    <insert id="insertAnswer" parameterType="com.example.classqa.po.Answer"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into answer(content, question_id, source_user, user_type, thumb_num, date)
+        value (#{answerContent},#{questionId},#{userId},#{userType},#{thumb_num},#{timestamp})
     </insert>
+
+    <insert id="insertQuestionAnswer">
+        insert into question_answer(question_id, answer_id)
+        value (#{question_id},#{answer_id})
+    </insert>
+
+    <update id="updateAnswerByID">
+        update answer set content=#{content} where id=#{id}
+    </update>
+
+    <delete id="deleteAnswer">
+        delete from answer where id=#{id};
+    </delete>
+
+    <delete id="deleteQuestionAnswer">
+        delete from question_answer where answer_id=#{answer_id}
+    </delete>
+
+    <select id="getAnswersUser">
+        select user_id from answer_user where answer_id=#{answer_id}
+    </select>
+
+    <select id="getThumbNum">
+        select thumb_num from answer where id = #{answer_id}
+    </select>
+
+    <insert id="addAnswerUser">
+        insert into answer_user(answer_id, user_id)
+            value (#{answer_id},#{user_id})
+    </insert>
+
+    <delete id="deleteAnswerUser">
+        delete from answer_user where answer_id=#{answer_id} and user_id=#{user_id}
+    </delete>
+
+    <update id="updateThumbNum">
+        update answer set thumb_num=#{thumb_num} where id=#{answer_id}
+    </update>
+
+    <resultMap id="Answer" type="com.example.classqa.po.Answer">
+        <result column="id" property="id"></result>
+        <result column="content" property="answerContent"></result>
+        <result column="question_id" property="questionId"></result>
+        <result column="source_user" property="userId"></result>
+        <result column="thumb_num" property="thumb_num"></result>
+        <result column="date" property="timestamp"></result>
+    </resultMap>
 </mapper>

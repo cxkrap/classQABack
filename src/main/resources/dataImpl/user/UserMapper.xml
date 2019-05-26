@@ -1,3 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.classqa.data.user.UserMapper">
+    <insert id="register" useGeneratedKeys="true" keyProperty="id">
+        insert into user() value ()
+    </insert>
+    <select id="getAccountById" resultMap="com.example.classqa.po.User">
+        select * from user where id=#{id}
+    </select>
+    <resultMap id="User" type="com.example.classqa.po.User">
+        <result column="id" property="id"></result>
+    </resultMap>
+</mapper>

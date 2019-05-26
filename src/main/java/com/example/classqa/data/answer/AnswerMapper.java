@@ -23,15 +23,9 @@ public interface AnswerMapper {
 
     /**
      * 插入一个新的答案
-     * @param content
-     * @param questionID
-     * @param userID
-     * @param userType
      * @return
      */
-    int insertAnswer(@Param("content") String content, @Param("questionID")int questionID,
-                     @Param("userID")int userID, @Param("userType")String userType,
-                     @Param("thumbNum")int thumbNum, @Param("date")Timestamp date);
+    int insertAnswer(@Param("answer") Answer answer);
 
     /**
      *

@@ -58,7 +58,14 @@ public class AnswerImpl implements Answerbl {
             String userType = answerForm.getUserType();
             Date date = new Date();
             Timestamp timestamp = new Timestamp(date.getTime());
-            int answer_id=answerMapper.insertAnswer(content,question_id,user_id,userType,0,timestamp);
+            Answer answer = new Answer();
+            answer.setQuestionId(question_id);
+            answer.setUserId(user_id);
+            answer.setAnswerContent(content);
+            answer.setUserType(userType);
+            answer.setThumb_num(0);
+            answer.setTimestamp(timestamp);
+            int answer_id=answerMapper.insertAnswer(answer);
             answerMapper.insertQuestionAnswer(question_id,answer_id);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
