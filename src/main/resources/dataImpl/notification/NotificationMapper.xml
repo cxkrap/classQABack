@@ -1,3 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.classqa.data.notification.NotificationMapper">
+
+    <insert id="insertNotification" parameterType="com.example.classqa.po.Notification"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into notification(content, class_id, readed) value
+        (#{notificationContent},#{course_id},#{haveReadStudent})
+    </insert>
+
+    <insert id="insertCourseNotification">
+        insert into course_notification(course_id, notification_id)
+        value (#{notificationID},#{courseID})
+    </insert>
+
+    <select id="selectNotificationByID" resultMap="com.example.classqa.po.Notification">
+        select * from notification where id=#{id}
+    </select>
+
+    <select id="selectNotificationByClassID" resultMap="com.example.classqa.po.Notification">
+        select * from notification where class_id=#{classID}
+    </select>
+
+    <delete id="deleteCourseNotification">
+        delete from notification where id=#{id}
+    </delete>
+
+    <update id="addNotificationRead">
+        update notification set content=content+1 where id=#{id}
+    </update>
+
+    <update id="updateNotification">
+        update notification set content=#{content} where id=#{id}
+    </update>
+</mapper>

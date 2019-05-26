@@ -1,7 +1,6 @@
 package com.example.classqa.controller;
 
 import com.example.classqa.bl.question.Questionbl;
-import com.example.classqa.po.Question;
 import com.example.classqa.vo.QuestionForm;
 import com.example.classqa.vo.ResponseVO;
 import org.json.JSONException;
@@ -9,8 +8,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.Normalizer;
-import java.util.jar.JarException;
 
 @RestController
 public class QuestionController {

@@ -1,3 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties/>
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.classqa.data.course.CourseMapper">
+    <insert id="insertCourse" parameterType="com.example.classqa.po.Course"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into course(content, headline, course_code, teacher_name)
+        value(#{content},#{headline},#{course_code},#{teacher_name})
+    </insert>
+
+    <insert id="insertCourseUser">
+        insert into course_user(course_code, user_id)
+        value(#{courseCode},#{userID})
+    </insert>
+
+    <select id="selectCourseByID" resultMap="com.example.classqa.po.Course">
+        select * from course where id=#{id}
+    </select>
+
+    <select id="selectCourseByUserID" resultMap="com.example.classqa.po.Course">
+        select * from course_user where user_id=#{user_id}
+    </select>
+
+    <select id="selectCoursesByCourseCode" resultMap="com.example.classqa.po.Course">
+        select * from course where course_code=#{course_code}
+    </select>
+
+    <select id="getQuestionNum">
+        select count(*) from course_question where course_id=#{course_id};
+    </select>
+
+
+</mapper>
