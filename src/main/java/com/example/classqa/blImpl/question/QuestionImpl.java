@@ -4,6 +4,7 @@ import com.example.classqa.bl.question.Questionbl;
 import com.example.classqa.data.question.QuestionMapper;
 import com.example.classqa.po.Question;
 import com.example.classqa.po.QuestionReadItem;
+import com.example.classqa.po.QuestionUnableItem;
 import com.example.classqa.vo.QuestionForm;
 import com.example.classqa.vo.QuestionVO;
 import com.example.classqa.vo.ResponseVO;
@@ -39,8 +40,8 @@ public class QuestionImpl implements Questionbl {
             Question question = questionMapper.selectQuestionByID(id);
             QuestionVO questionVO = new QuestionVO();
             questionVO.setId(question.getId());
-            questionVO.setContent(question.getQuestionContent());
-            questionVO.setUnable_num(question.getQueryNum());
+            questionVO.setContent(question.getContent());
+            questionVO.setUnable_num(question.getUnableNum());
             questionVO.setUser_id(question.getUserID());
             questionVO.setUserType(question.getUserType());
             return ResponseVO.buildSuccess(questionVO);
@@ -54,12 +55,17 @@ public class QuestionImpl implements Questionbl {
     public ResponseVO addQuestion(QuestionForm questionForm){
         try {
             String content = questionForm.getContent();
-            int unableNum = 1;
             int course_id = questionForm.getCourse_id();
             int user_id = questionForm.getUser_id();
             Date date = new Date();
             Timestamp timestamp = new Timestamp(date.getTime());
-            int question_id=questionMapper.insertQuestion(content,unableNum,user_id,timestamp);
+            Question question = new Question();
+            question.setUserID(user_id);
+            question.setUserType("student");
+            question.setUnableNum(1);
+            question.setContent(content);
+            question.setTimestamp(timestamp);
+            int question_id=questionMapper.insertQuestion(question);
             questionMapper.insertCourseQuestion(course_id,question_id);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
@@ -126,8 +132,8 @@ public class QuestionImpl implements Questionbl {
         for(Question question:questionList){
             QuestionVO questionVO = new QuestionVO();
             questionVO.setId(question.getId());
-            questionVO.setContent(question.getQuestionContent());
-            questionVO.setUnable_num(question.getQueryNum());
+            questionVO.setContent(question.getContent());
+            questionVO.setUnable_num(question.getUnableNum());
             questionVO.setUser_id(question.getUserID());
             questionVO.setUserType(question.getUserType());
             questionVOList.add(questionVO);
@@ -157,7 +163,11 @@ public class QuestionImpl implements Questionbl {
         try {
             //true是已读，false是未读，默认为未读
             QuestionReadItem questionReadItem = questionMapper.selectMarkQuestion(question_id,user_id);
-            if(questionReadItem==null||questionReadItem.getState()==0)return ResponseVO.buildSuccess(false);
+            if(questionReadItem==null){
+                questionMapper.addQuestionRead(question_id,user_id);
+                return ResponseVO.buildSuccess(false);
+            }
+            else if(questionReadItem.getState()==0)return ResponseVO.buildSuccess(false);
             else return ResponseVO.buildSuccess(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,16 +179,13 @@ public class QuestionImpl implements Questionbl {
     public ResponseVO getQuestionUnable(int user_id,int question_id){
         try {
             //true是会，false是不会，默认为会
-            List<Integer>unable_users = questionMapper.getQuestionsUser(question_id);
-            boolean flag = true;
-            //true的时候添加，否则删除
-            for(int id:unable_users){
-                if(id==user_id){
-                    flag=false;
-                    break;
-                }
+            QuestionUnableItem questionUnableItem = questionMapper.selectUnableItem(question_id,user_id);
+            if(questionUnableItem==null){
+                questionMapper.addQuestionUser(user_id,question_id);
+                return ResponseVO.buildSuccess(true);
             }
-            return ResponseVO.buildSuccess(flag);
+            else if(questionUnableItem.getState()==1)return ResponseVO.buildSuccess(true);
+            else return ResponseVO.buildSuccess(false);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure("错误");

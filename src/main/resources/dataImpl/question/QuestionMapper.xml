@@ -1,3 +1,58 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.classqa.data.question.QuestionMapper">
+    <select id="selectAllQuestions" resultMap="com.example.classqa.po.Question">
+        select * from question where course_id=#{course_id}
+    </select>
+
+    <select id="selectQuestionByID" resultMap="com.example.classqa.po.Question">
+        select * from question where id=#{id}
+    </select>
+
+    <insert id="insertQuestion" parameterType="com.example.classqa.po.Question"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into question(content, unable_num, source_user, time, course_id)
+        value (#{content},#{unableNum},#{userID},#{timestamp},#{course_id})
+    </insert>
+
+    <insert id="insertCourseQuestion">
+        insert into course_question(course_id, question_id)
+        value (#{course_id},#{question_id})
+    </insert>
+
+    <delete id="deleteQuestion">
+        delete from course where id=#{id}
+    </delete>
+
+    <delete id="deleteCourseQuestion">
+        delete from course_question where question_id=#{question_id}
+    </delete>
+
+    <update id="updateQuestionDescription">
+        update question set content=#{content} where id=#{id}
+    </update>
+    
+    <select id="getQuestionsUser">
+        select user_id from question_unable where question_id=#{question_id} and state=0
+    </select>
+
+    <update id="updateQuestionUnable">
+        update question set unable_num=#{unableNum} where id=#{id}
+    </update>
+    
+    <select id="selectMarkQuestion" resultMap="com.example.classqa.po.QuestionReadItem">
+        select * from question_read where user_id=#{user_id} and question_id=#{question_id}
+    </select>
+    
+    <select id="selectUnableItem" resultMap="com.example.classqa.po.QuestionUnableItem">
+        select * from question_unable where user_id=#{user_id} and question_id=#{question_id}
+    </select>
+    
+    <insert id="markQuestion">
+        INSERT INTO question_read VALUES(#{question_id},#{user_id},#{state})ON DUPLICATE KEY UPDATE state = #{state}
+    </insert>
+
+    <select id="getUserReadQuestionNum">
+        select count(*) from question_read where user_id=#{user_id} and state=1
+    </select>
+</mapper>

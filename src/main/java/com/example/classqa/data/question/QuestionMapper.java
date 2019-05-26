@@ -1,6 +1,7 @@
 package com.example.classqa.data.question;
 
 import com.example.classqa.po.QuestionReadItem;
+import com.example.classqa.po.QuestionUnableItem;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.example.classqa.po.Question;
@@ -15,8 +16,6 @@ public interface QuestionMapper {
      */
     List<Question> selectAllQuestions(int course_id);
 
-
-
     /**
      * 根据ID查找问题
      * @param id
@@ -26,15 +25,17 @@ public interface QuestionMapper {
 
     /**
      * 插入一个新的问题，插入时默认unableNum为1，userType为student
-     * @param content
-     * @param unableNum
-     * @param userID
      * @return
      */
-    int insertQuestion(@Param("content") String content, @Param("unableNum")int unableNum,
-                       @Param("userID")int userID, @Param("time")Timestamp time);
+    int insertQuestion(@Param("question") Question question);
 
 
+    /**
+     *
+     * @param course_id
+     * @param question_id
+     * @return
+     */
     int insertCourseQuestion(@Param("course_id")int course_id,@Param("question_id") int question_id);
 
     /**
@@ -81,6 +82,12 @@ public interface QuestionMapper {
     void addQuestionUser(@Param("question_id")int question_id,@Param("user_id")int user_id);
 
     /**
+     * 添加用户的读记录
+     * @param question_id
+     * @param user_id
+     */
+    void addQuestionRead(@Param("question_id")int question_id,@Param("user_id")int user_id);
+    /**
      * 获取问题的不会人数
      * @param question
      * @return
@@ -102,6 +109,13 @@ public interface QuestionMapper {
      */
     QuestionReadItem selectMarkQuestion(@Param("question_id")int question_id,@Param("user_id")int user_id);
 
+    /**
+     * 返回QuestionUnableItem
+     * @param question_id
+     * @param user_id
+     * @return
+     */
+    QuestionUnableItem selectUnableItem(@Param("question_id")int question_id,@Param("user_id")int user_id);
     /**
      * 标记问题已读
      * @param question_id
